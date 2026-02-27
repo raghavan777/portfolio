@@ -3344,3 +3344,30 @@ img {
         text-shadow: 0 0 40px rgba(255, 183, 77, 0.5), 0 0 80px rgba(253, 203, 110, 0.2);
     }
 }
+/* ===== PERFORMANCE FALLBACKS ===== */
+@media (max-width: 768px), (pointer: coarse) {
+    body,
+    a,
+    .btn,
+    .back-to-top {
+        cursor: auto;
+    }
+
+    .cursor-dot,
+    .cursor-outline,
+    .mouse-spotlight {
+        display: none !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    * {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+        transition-delay: 0ms !important;
+    }
+}
