@@ -1929,8 +1929,7 @@ img {
     /* 2. Reduce backdrop-filter blur which is very heavy on mobile GPUs */
     .glass-card,
     .navbar,
-    .form-input,
-    .contact-item {
+    .form-input {
         backdrop-filter: blur(8px) saturate(120%) !important;
         -webkit-backdrop-filter: blur(8px) saturate(120%) !important;
     }
@@ -1949,11 +1948,12 @@ img {
         display: none !important;
     }
 
-    /* 5. Stop expensive rotating orbital rings */
+    /* 5. Stop expensive rotating orbital rings but keep them centered */
     .ring-1,
     .ring-2,
-    .ring-3 {
+    .image-wrapper::after {
         animation: none !important;
+        transform: translate(-50%, -50%) !important;
     }
 
     /* Hide custom cursor on mobile */
