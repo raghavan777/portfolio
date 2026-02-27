@@ -87,18 +87,9 @@ body {
     cursor: none;
 }
 
-/* Premium Matte Noise Overlay */
+/* Premium Matte Noise Overlay removed for performance */
 body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    opacity: 0.04;
-    z-index: 9999;
-    pointer-events: none;
+    display: none;
 }
 
 a {
@@ -265,8 +256,8 @@ img {
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     border-left: 1px solid rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
     border-radius: var(--radius-lg);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.02);
     position: relative;
@@ -880,21 +871,21 @@ img {
     border: 4px solid transparent;
     background: linear-gradient(#0d0d20, #0d0d20) padding-box,
         linear-gradient(135deg, #6c5ce7, #00cec9, #fd79a8) border-box;
-    box-shadow: 0 0 50px rgba(108, 92, 231, 0.4),
-        0 0 100px rgba(0, 206, 201, 0.2),
-        inset 0 0 60px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 30px rgba(108, 92, 231, 0.4),
+        0 0 50px rgba(0, 206, 201, 0.2),
+        inset 0 0 30px rgba(0, 0, 0, 0.5);
     animation: profilePulse 6s ease-in-out infinite alternate;
 }
 
 @keyframes profilePulse {
     0% {
         transform: translate(-50%, -50%) scale(1);
-        box-shadow: 0 0 50px rgba(108, 92, 231, 0.4), inset 0 0 60px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 0 30px rgba(108, 92, 231, 0.4), inset 0 0 30px rgba(0, 0, 0, 0.5);
     }
 
     100% {
         transform: translate(-50%, -50%) scale(1.02);
-        box-shadow: 0 0 70px rgba(0, 206, 201, 0.5), inset 0 0 60px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 0 40px rgba(0, 206, 201, 0.5), inset 0 0 30px rgba(0, 0, 0, 0.5);
         border-color: rgba(253, 121, 168, 0.5);
     }
 }
@@ -1386,7 +1377,7 @@ img {
     font-size: 0.8rem;
     color: #fff;
     z-index: 2;
-    box-shadow: 0 0 25px rgba(108, 92, 231, 0.5), 0 0 50px rgba(108, 92, 231, 0.2);
+    box-shadow: 0 0 15px rgba(108, 92, 231, 0.5), 0 0 30px rgba(108, 92, 231, 0.2);
     animation: glowPulse 3s ease-in-out infinite;
 }
 
@@ -1930,8 +1921,8 @@ img {
     .glass-card,
     .navbar,
     .form-input {
-        backdrop-filter: blur(8px) saturate(120%) !important;
-        -webkit-backdrop-filter: blur(8px) saturate(120%) !important;
+        backdrop-filter: blur(4px) saturate(120%) !important;
+        -webkit-backdrop-filter: blur(4px) saturate(120%) !important;
     }
 
     /* 3. Simplify deep box-shadows on cards */
@@ -1939,21 +1930,19 @@ img {
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
     }
 
-    .glass-card:hover {
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+    /* Enable continuous animations on mobile since hover is unavailable */
+    .glass-card::before {
+        opacity: 1 !important;
     }
 
-    /* 4. Disable massive animated hero blobs */
-    .hero-blob {
-        display: none !important;
+    .skill-card .skill-icon {
+        color: var(--accent-1) !important;
+        transform: scale(1.1) !important;
     }
 
-    /* 5. Stop expensive rotating orbital rings but keep them centered */
-    .ring-1,
-    .ring-2,
-    .image-wrapper::after {
-        animation: none !important;
-        transform: translate(-50%, -50%) !important;
+    /* Wrap long unbroken email addresses to prevent page overflow */
+    .contact-item a {
+        word-break: break-all;
     }
 
     /* Hide custom cursor on mobile */
@@ -2530,8 +2519,8 @@ img {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background: #050510;
     z-index: 99999;
     display: flex;

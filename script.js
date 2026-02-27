@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function initParticles() {
         particles = [];
         const isMobile = window.innerWidth <= 768;
-        const maxParticles = isMobile ? 40 : 160;
+        const maxParticles = isMobile ? 30 : 80;
         const count = Math.min(Math.floor((canvas.width * canvas.height) / 8000), maxParticles);
         for (let i = 0; i < count; i++) {
             particles.push(new Particle());
@@ -84,8 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const dx = particles[a].x - particles[b].x;
                 const dy = particles[a].y - particles[b].y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 150) {
-                    const opacity = 0.08 * (1 - dist / 150);
+                if (dist < 100) {
+                    const opacity = 0.08 * (1 - dist / 100);
                     ctx.beginPath();
                     ctx.strokeStyle = `rgba(108, 92, 231, ${opacity})`;
                     ctx.lineWidth = 0.5;
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //  1B. MOUSE GLOW TRAIL
     // ==========================================
     const glowTrail = [];
-    const maxTrailLength = 20;
+    const maxTrailLength = 10;
 
     document.addEventListener('mousemove', e => {
         if (window.innerWidth <= 768) return; // Disable on mobile
