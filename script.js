@@ -460,7 +460,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetId = this.getAttribute('href');
             const target = document.querySelector(targetId);
 
-            if (target && targetId !== '#home') {
+            if (target) {
                 // Trigger cinematic transition
                 if (pageTransition) {
                     pageTransition.classList.add('active');
@@ -477,8 +477,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
-            } else if (targetId === '#home') {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
     });
