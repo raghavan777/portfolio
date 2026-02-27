@@ -1920,6 +1920,42 @@ img {
         grid-template-columns: 1fr;
     }
 
+    /* ===== MOBILE PERFORMANCE OPTIMIZATIONS ===== */
+    /* 1. Disable expensive SVG noise overlay */
+    body::after {
+        display: none !important;
+    }
+
+    /* 2. Reduce backdrop-filter blur which is very heavy on mobile GPUs */
+    .glass-card,
+    .navbar,
+    .form-input,
+    .contact-item {
+        backdrop-filter: blur(8px) saturate(120%) !important;
+        -webkit-backdrop-filter: blur(8px) saturate(120%) !important;
+    }
+
+    /* 3. Simplify deep box-shadows on cards */
+    .glass-card {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .glass-card:hover {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    /* 4. Disable massive animated hero blobs */
+    .hero-blob {
+        display: none !important;
+    }
+
+    /* 5. Stop expensive rotating orbital rings */
+    .ring-1,
+    .ring-2,
+    .ring-3 {
+        animation: none !important;
+    }
+
     /* Hide custom cursor on mobile */
     .cursor-dot,
     .cursor-outline {

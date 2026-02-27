@@ -69,7 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function initParticles() {
         particles = [];
-        const count = Math.min(Math.floor((canvas.width * canvas.height) / 8000), 160);
+        const isMobile = window.innerWidth <= 768;
+        const maxParticles = isMobile ? 40 : 160;
+        const count = Math.min(Math.floor((canvas.width * canvas.height) / 8000), maxParticles);
         for (let i = 0; i < count; i++) {
             particles.push(new Particle());
         }
@@ -103,7 +105,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     animateParticles();
 
-    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    window.addEventListener('mousemove', e => {
+        if (window.innerWidth <= 768) return; // Disable on mobile
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+    });
     window.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
 
     // ==========================================
@@ -113,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const maxTrailLength = 20;
 
     document.addEventListener('mousemove', e => {
+        if (window.innerWidth <= 768) return; // Disable on mobile
         glowTrail.push({ x: e.clientX, y: e.clientY, alpha: 0.6 });
         if (glowTrail.length > maxTrailLength) glowTrail.shift();
     });
@@ -122,20 +129,22 @@ document.addEventListener('DOMContentLoaded', () => {
     function animateWithGlow() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Draw mouse glow
-        glowTrail.forEach((point, i) => {
-            const ratio = i / glowTrail.length;
-            const radius = ratio * 60;
-            const gradient = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, radius);
-            gradient.addColorStop(0, `rgba(108, 92, 231, ${ratio * 0.08})`);
-            gradient.addColorStop(0.5, `rgba(0, 206, 201, ${ratio * 0.04})`);
-            gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            ctx.beginPath();
-            ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
-            ctx.fillStyle = gradient;
-            ctx.fill();
-            point.alpha *= 0.95;
-        });
+        // Draw mouse glow (Only if on desktop)
+        if (window.innerWidth > 768) {
+            glowTrail.forEach((point, i) => {
+                const ratio = i / glowTrail.length;
+                const radius = ratio * 60;
+                const gradient = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, radius);
+                gradient.addColorStop(0, `rgba(108, 92, 231, ${ratio * 0.08})`);
+                gradient.addColorStop(0.5, `rgba(0, 206, 201, ${ratio * 0.04})`);
+                gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+                point.alpha *= 0.95;
+            });
+        }
 
         particles.forEach(p => { p.update(); p.draw(); });
         connectParticles();
@@ -184,24 +193,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('.section, .hero-section');
     const navLinks = document.querySelectorAll('.nav-link');
 
-    window.addEventListener('scroll', () => {
-        // Scrolled class
-        navbar.classList.toggle('scrolled', window.scrollY > 50);
+    let isScrolling = false;
 
-        // Active link
-        let current = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - 120;
-            if (window.scrollY >= sectionTop) {
-                current = section.getAttribute('id');
-            }
-        });
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === '#' + current) {
-                link.classList.add('active');
-            }
-        });
+    window.addEventListener('scroll', () => {
+        if (!isScrolling) {
+            window.requestAnimationFrame(() => {
+                // Scrolled class
+                navbar.classList.toggle('scrolled', window.scrollY > 50);
+
+                // Active link
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 120;
+                    if (window.scrollY >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+                isScrolling = false;
+            });
+            isScrolling = true;
+        }
     });
 
     // Hamburger
@@ -378,6 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     tiltCards.forEach(card => {
         card.addEventListener('mousemove', e => {
+            if (window.innerWidth <= 768) return; // Disable on mobile
             const rect = card.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
@@ -497,6 +515,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const magneticLinks = document.querySelectorAll('.social-link, .floating-badge');
     magneticLinks.forEach(link => {
         link.addEventListener('mousemove', e => {
+            if (window.innerWidth <= 768) return; // Disable on mobile
             const rect = link.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
