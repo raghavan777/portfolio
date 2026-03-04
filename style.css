@@ -1424,17 +1424,30 @@ img {
 
 /* ===== PROJECTS SECTION ===== */
 .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
 .project-card {
+    flex: 1 1 calc(50% - 24px);
+    /* Top row: exactly two cards taking up 50% each */
+    max-width: 450px;
+    /* Prevents cards from getting too wide horizontally */
     padding: 32px;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     display: flex;
     flex-direction: column;
+}
+
+/* Force the 3rd, 4th, and 5th cards into the bottom row occupying 33% */
+.project-card:nth-child(n+3) {
+    flex: 1 1 calc(33.333% - 24px);
+    max-width: 380px;
 }
 
 .project-card:hover {
@@ -3344,8 +3357,11 @@ img {
         text-shadow: 0 0 40px rgba(255, 183, 77, 0.5), 0 0 80px rgba(253, 203, 110, 0.2);
     }
 }
+
 /* ===== PERFORMANCE FALLBACKS ===== */
-@media (max-width: 768px), (pointer: coarse) {
+@media (max-width: 768px),
+(pointer: coarse) {
+
     body,
     a,
     .btn,
