@@ -1428,15 +1428,14 @@ img {
     flex-wrap: wrap;
     justify-content: center;
     gap: 24px;
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
 .project-card {
-    flex: 1 1 calc(50% - 24px);
-    /* Top row: exactly two cards taking up 50% each */
-    max-width: 450px;
-    /* Prevents cards from getting too wide horizontally */
+    flex: 1 1 calc(33.333% - 24px);
+    /* All cards take up one-third exactly */
+    max-width: 400px;
     padding: 32px;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
@@ -1444,11 +1443,7 @@ img {
     flex-direction: column;
 }
 
-/* Force the 3rd, 4th, and 5th cards into the bottom row occupying 33% */
-.project-card:nth-child(n+3) {
-    flex: 1 1 calc(33.333% - 24px);
-    max-width: 380px;
-}
+
 
 .project-card:hover {
     transform: translateY(-14px) scale(1.02);
@@ -1918,7 +1913,15 @@ img {
     }
 
     .projects-grid {
-        grid-template-columns: 1fr;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .project-card,
+    .projects-grid>.project-card:nth-child(n+3) {
+        max-width: 100%;
+        width: 100%;
+        flex: 1 1 100%;
     }
 
     .skills-grid {
