@@ -312,7 +312,7 @@ img {
     background: radial-gradient(circle, #fd79a8, transparent 70%);
     top: 50%;
     right: -200px;
-    transform: translateY(-50%);
+    
 }
 
 .education-section::before {
@@ -393,11 +393,11 @@ img {
 
     0%,
     100% {
-        transform: translateY(0);
+        
     }
 
     50% {
-        transform: translateY(-15px);
+        
     }
 }
 
@@ -438,14 +438,16 @@ img {
 /* ===== REVEAL ANIMATIONS ===== */
 .reveal-up {
     opacity: 0;
-    transform: translateY(60px);
-    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translate3d(0, 30px, 0);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     will-change: opacity, transform;
+    backface-visibility: hidden;
+    perspective: 1000px;
 }
 
 .reveal-up.revealed {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
 }
 
 /* ===== NAVIGATION ===== */
@@ -747,11 +749,11 @@ img {
 
 @keyframes floatBadge {
     0% {
-        transform: translateY(0);
+        
     }
 
     100% {
-        transform: translateY(-8px);
+        
     }
 }
 
@@ -785,7 +787,7 @@ img {
 }
 
 .btn-primary:hover {
-    transform: translateY(-3px);
+    
     box-shadow: 0 8px 30px rgba(108, 92, 231, 0.5);
 }
 
@@ -812,7 +814,7 @@ img {
 
 .btn-outline:hover {
     background: rgba(0, 206, 201, 0.1);
-    transform: translateY(-3px);
+    
     box-shadow: 0 8px 30px rgba(0, 206, 201, 0.2);
 }
 
@@ -841,7 +843,7 @@ img {
 .social-link:hover {
     color: #fff;
     border-color: var(--accent-2);
-    transform: translateY(-6px) scale(1.1);
+    
     box-shadow: 0 0 20px rgba(0, 206, 201, 0.4), 0 0 40px rgba(0, 206, 201, 0.15), 0 10px 30px rgba(0, 0, 0, 0.3);
     background: rgba(0, 206, 201, 0.1);
 }
@@ -1143,7 +1145,7 @@ img {
 }
 
 .stat-card:hover {
-    transform: translateY(-8px) scale(1.05);
+    
     border-color: rgba(108, 92, 231, 0.4);
     box-shadow: 0 0 30px rgba(108, 92, 231, 0.25), 0 15px 40px rgba(0, 0, 0, 0.3);
 }
@@ -1269,7 +1271,7 @@ img {
 }
 
 .skill-card:hover {
-    transform: translateY(-12px);
+    
     border-color: rgba(108, 92, 231, 0.4);
     box-shadow: 0 0 30px rgba(108, 92, 231, 0.2), 0 20px 60px rgba(0, 0, 0, 0.4);
     background: rgba(255, 255, 255, 0.06);
@@ -1446,7 +1448,7 @@ img {
 
 
 .project-card:hover {
-    transform: translateY(-14px) scale(1.02);
+    
     border-color: rgba(108, 92, 231, 0.4);
     box-shadow: 0 0 30px rgba(108, 92, 231, 0.2), 0 25px 60px rgba(0, 0, 0, 0.4);
     background: rgba(255, 255, 255, 0.06);
@@ -1494,7 +1496,7 @@ img {
 
 .project-link:hover {
     color: var(--accent-2);
-    transform: translateY(-2px);
+    
 }
 
 .project-title {
@@ -1546,7 +1548,7 @@ img {
 }
 
 .education-card:hover {
-    transform: translateY(-10px) scale(1.02);
+    
     border-color: rgba(108, 92, 231, 0.4);
     box-shadow: 0 0 30px rgba(108, 92, 231, 0.2), 0 20px 60px rgba(0, 0, 0, 0.4);
     background: rgba(255, 255, 255, 0.06);
@@ -1804,7 +1806,7 @@ img {
 
 .footer-socials a:hover {
     color: var(--accent-2);
-    transform: translateY(-3px);
+    
 }
 
 .footer-copy {
@@ -2354,7 +2356,7 @@ img {
 .tag:hover {
     background: rgba(108, 92, 231, 0.25);
     border-color: rgba(108, 92, 231, 0.5);
-    transform: translateY(-3px) scale(1.05);
+    
     box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
     color: #fff;
 }
@@ -2465,7 +2467,7 @@ img {
 
 .footer-socials a:hover {
     color: var(--accent-2);
-    transform: translateY(-5px) scale(1.2);
+    
     text-shadow: 0 0 15px rgba(0, 206, 201, 0.5);
 }
 
@@ -2706,12 +2708,12 @@ img {
 
     0%,
     100% {
-        transform: translateY(0) scale(1);
+        
         opacity: 0.3;
     }
 
     50% {
-        transform: translateY(-30px) scale(1.5);
+        
         opacity: 0.8;
     }
 }
@@ -2749,7 +2751,7 @@ img {
     z-index: 999;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(20px);
+    
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: none;
     overflow: hidden;
@@ -2758,13 +2760,13 @@ img {
 .back-to-top.visible {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    
 }
 
 .back-to-top:hover {
     background: rgba(108, 92, 231, 0.15);
     border-color: rgba(108, 92, 231, 0.6);
-    transform: translateY(-4px);
+    
     box-shadow: 0 0 20px rgba(108, 92, 231, 0.4), 0 0 40px rgba(108, 92, 231, 0.15);
 }
 
@@ -2854,14 +2856,14 @@ img {
 /* ===== ENHANCED REVEAL ANIMATIONS ===== */
 .reveal-up {
     opacity: 0;
-    transform: translateY(80px) scale(0.95);
+    
     filter: blur(5px);
     transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .reveal-up.revealed {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    
     filter: blur(0);
 }
 
