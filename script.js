@@ -4,10 +4,12 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+    const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const lowPowerDevice = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
         (navigator.deviceMemory && navigator.deviceMemory <= 4);
-    const disableHeavyEffects = isTouchDevice || prefersReducedMotion || lowPowerDevice;
+    const mobileOptimized = isTouchDevice || isMobileViewport;
+    const disableHeavyEffects = mobileOptimized || prefersReducedMotion || lowPowerDevice;
 
     // ==========================================
     // 1. PARTICLE BACKGROUND
@@ -17,6 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let particles = [];
     let particleMouse = { x: null, y: null };
     let particleRAF = null;
+
+    function shouldAnimateParticles() {
+        return window.innerWidth > 768 && !mobileOptimized;
+    }
 
     class Particle {
         constructor() {
@@ -68,14 +74,26 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!canvas) return;
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+
+        if (!shouldAnimateParticles()) {
+            particles = [];
+            if (particleRAF) {
+                cancelAnimationFrame(particleRAF);
+                particleRAF = null;
+            }
+            if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+            return;
+        }
+
         initParticles();
+
+        if (!particleRAF) animateParticles();
     }
 
     function initParticles() {
         if (!canvas) return;
         particles = [];
-        const isMobile = window.innerWidth <= 768;
-        if (isMobile) return; // Completely disable particles on mobile
+        if (!shouldAnimateParticles()) return;
 
         const maxParticles = disableHeavyEffects ? 16 : 64;
         const count = Math.min(Math.floor((canvas.width * canvas.height) / 9000), maxParticles);
@@ -104,7 +122,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function animateParticles() {
         if (!ctx || !canvas) return;
-        if (document.hidden || window.innerWidth <= 768) {
+        if (!shouldAnimateParticles() || particles.length === 0) {
+            particleRAF = null;
+            return;
+        }
+
+        if (document.hidden) {
             particleRAF = requestAnimationFrame(animateParticles);
             return;
         }
@@ -120,11 +143,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (canvas && ctx) {
         resizeCanvas();
-        animateParticles();
         window.addEventListener('resize', resizeCanvas, { passive: true });
 
         window.addEventListener('mousemove', e => {
-            if (disableHeavyEffects || window.innerWidth <= 768) return;
+            if (disableHeavyEffects || !shouldAnimateParticles()) return;
             particleMouse.x = e.clientX;
             particleMouse.y = e.clientY;
         }, { passive: true });
@@ -182,20 +204,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const parallaxElements = document.querySelectorAll('.floating-badge, .image-ring');
     let scrollTicking = false;
 
+    const setActiveNavLink = (currentId) => {
+        navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + currentId);
+        });
+    };
+
+    if (sections.length && navLinks.length) {
+        const sectionObserver = new IntersectionObserver((entries) => {
+            const visibleSections = entries
+                .filter(entry => entry.isIntersecting)
+                .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+            if (visibleSections.length > 0) {
+                setActiveNavLink(visibleSections[0].target.getAttribute('id'));
+            }
+        }, {
+            threshold: [0.2, 0.35, 0.5, 0.65],
+            rootMargin: '-20% 0px -45% 0px'
+        });
+
+        sections.forEach(section => sectionObserver.observe(section));
+    }
+
     function updateOnScroll() {
         const scrollTop = window.scrollY;
 
         if (navbar) navbar.classList.toggle('scrolled', scrollTop > 50);
-
-        let current = '';
-        sections.forEach(section => {
-            if (scrollTop >= section.offsetTop - 120) {
-                current = section.getAttribute('id');
-            }
-        });
-        navLinks.forEach(link => {
-            link.classList.toggle('active', link.getAttribute('href') === '#' + current);
-        });
 
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
         const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
@@ -476,7 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => pageTransition.classList.remove('active-out'), 450);
                 }, 550);
             } else {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                target.scrollIntoView({ behavior: mobileOptimized ? 'auto' : 'smooth', block: 'start' });
             }
         });
     });
@@ -513,7 +548,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (loader) {
         document.body.style.overflow = 'hidden';
-        animateLoader();
+        if (mobileOptimized) {
+            if (loaderFill) loaderFill.style.width = '100%';
+            setTimeout(() => {
+                loader.classList.add('loaded');
+                document.body.style.overflow = '';
+            }, 120);
+        } else {
+            animateLoader();
+        }
     }
 
     // ==========================================
@@ -555,7 +598,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 14. RIPPLE EFFECT
     // ==========================================
-    if (!prefersReducedMotion) {
+    if (!prefersReducedMotion && !mobileOptimized) {
         document.querySelectorAll('.glass-card, .btn').forEach(el => {
             el.addEventListener('click', function (e) {
                 const rect = this.getBoundingClientRect();
