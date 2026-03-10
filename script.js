@@ -75,7 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!canvas) return;
         particles = [];
         const isMobile = window.innerWidth <= 768;
-        const maxParticles = disableHeavyEffects ? 16 : (isMobile ? 26 : 64);
+        if (isMobile) return; // Completely disable particles on mobile
+
+        const maxParticles = disableHeavyEffects ? 16 : 64;
         const count = Math.min(Math.floor((canvas.width * canvas.height) / 9000), maxParticles);
         for (let i = 0; i < count; i++) particles.push(new Particle());
     }
@@ -102,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function animateParticles() {
         if (!ctx || !canvas) return;
-        if (document.hidden) {
+        if (document.hidden || window.innerWidth <= 768) {
             particleRAF = requestAnimationFrame(animateParticles);
             return;
         }
@@ -512,6 +514,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loader) {
         document.body.style.overflow = 'hidden';
         animateLoader();
+    }
+
+    // ==========================================
+    // 6. 3D TILT EFFECT (DESKTOP ONLY)
+    // ==========================================
+    if (window.matchMedia("(hover: hover)").matches) {
+        VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+            max: 8,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.15,
+            scale: 1.02,
+        });
     }
 
     // ==========================================
