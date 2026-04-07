@@ -3182,6 +3182,10 @@ img {
         justify-content: center;
     }
 
+    .hero-role {
+        justify-content: center;
+    }
+
     .hero-description {
         margin: 0 auto 32px;
     }
