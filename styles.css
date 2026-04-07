@@ -3191,6 +3191,10 @@ img {
     }
 
     .social-icons {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        width: 100%;
         justify-content: center;
     }
 
@@ -3446,6 +3450,8 @@ img {
     font-weight: 500;
     letter-spacing: -1px;
     margin: 0;
+    text-align: center;
+    width: 100%;
     background: var(--gradient-name);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
