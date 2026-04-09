@@ -1,6 +1,3 @@
-/* ============================================================
-   PORTFOLIO JS - Twin of dark-shine--sundar7777.replit.app
-   ============================================================ */
 
 // ========== ALWAYS START FROM TOP ON REFRESH ==========
 // Prevents browser from restoring scroll position on reload
@@ -18,7 +15,7 @@ window.addEventListener('load', () => {
             loader.style.visibility = 'hidden';
             setTimeout(() => {
                 loader.style.display = 'none';
-            }, 600); 
+            }, 600);
         }
         document.body.classList.remove('loading-overflow');
     }, 2500);
@@ -305,7 +302,7 @@ class ScrollProgress {
 
             if (this.progressBar) {
                 this.progressBar.style.width = scrolled + '%';
-                
+
                 // Invisible on 1st page (Hero section)
                 if (winScroll > 50) {
                     this.progressBar.style.opacity = '1';
@@ -356,6 +353,7 @@ function closeResume() {
 document.addEventListener('click', (e) => {
     const modal = document.getElementById('resume-modal');
     if (e.target === modal) {
+        if (window.innerWidth <= 768) return; // Prevent closing on mobile
         closeResume();
     }
 });
@@ -392,7 +390,7 @@ class ContactForm {
         try {
             const response = await fetch("https://formsubmit.co/ajax/kssundararaghavan411@gmail.com", {
                 method: "POST",
-                headers: { 
+                headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
@@ -435,11 +433,11 @@ class CustomCursor {
         this.dot = document.querySelector('.cursor-dot');
         this.outline = document.querySelector('.cursor-outline');
         this.links = document.querySelectorAll('a, button, .social-icon, .nav-toggle, #resume-btn');
-        
+
         this.mouse = { x: 0, y: 0 };
         this.cursor = { x: 0, y: 0 };
         this.outlinePos = { x: 0, y: 0 };
-        
+
         this.init();
     }
 
@@ -447,7 +445,7 @@ class CustomCursor {
         window.addEventListener('mousemove', (e) => {
             this.mouse.x = e.clientX;
             this.mouse.y = e.clientY;
-            
+
             // Dot follows instantly
             if (this.dot) {
                 this.dot.style.left = `${this.mouse.x}px`;
@@ -458,15 +456,15 @@ class CustomCursor {
         // Smoothly animate the outline with lag
         const animateOutline = () => {
             const easing = 0.2; // Adjust for more/less lag
-            
+
             this.outlinePos.x += (this.mouse.x - this.outlinePos.x) * easing;
             this.outlinePos.y += (this.mouse.y - this.outlinePos.y) * easing;
-            
+
             if (this.outline) {
                 this.outline.style.left = `${this.outlinePos.x}px`;
                 this.outline.style.top = `${this.outlinePos.y}px`;
             }
-            
+
             requestAnimationFrame(animateOutline);
         };
         animateOutline();
@@ -562,7 +560,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Profile image fallback
     const profileImg = document.getElementById('profile-img');
     if (profileImg) {
-        profileImg.addEventListener('error', function() {
+        profileImg.addEventListener('error', function () {
             this.src = 'https://dark-shine--sundar7777.replit.app/assets/profile-DC0mk_5_.jpg';
         });
     }

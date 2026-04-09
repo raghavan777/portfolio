@@ -3088,6 +3088,10 @@ img {
 
 /* Mobile optimization */
 @media (max-width: 768px) {
+    .resume-modal-footer {
+        display: none !important;
+    }
+
     .resume-header-grid {
         grid-template-columns: 1fr;
         text-align: center;
@@ -3543,18 +3547,7 @@ img {
     }
 
     .resume-modal-footer {
-        flex-direction: column-reverse;
-        align-items: center;
-        gap: 16px;
-        text-align: center;
-    }
-
-    .modal-footer-right {
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
-        width: 100%;
-        margin-bottom: 8px;
+        display: none !important;
     }
 }
 
