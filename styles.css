@@ -1758,18 +1758,35 @@ img {
     box-shadow: 0 0 22px rgba(var(--theme-color-rgb), 0.35);
 }
 
+@keyframes iconPulse {
+    0% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 6px var(--theme-color, rgba(255, 255, 255, 0.5)));
+    }
+    50% {
+        transform: scale(1.15);
+        filter: drop-shadow(0 0 14px var(--theme-color, rgba(255, 255, 255, 0.8))) drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+    }
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 6px var(--theme-color, rgba(255, 255, 255, 0.5)));
+    }
+}
+
 .project-link-icon {
-    color: rgba(255, 255, 255, 0.85);
+    color: #ffffff;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.3));
+    animation: iconPulse 2.5s infinite ease-in-out;
+    filter: drop-shadow(0 0 8px var(--theme-color, #00cec9));
 }
 
 .project-link-icon:hover {
     color: #ffffff;
-    transform: scale(1.2);
-    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 16px var(--theme-color, #00cec9));
+    transform: scale(1.3) !important;
+    animation-play-state: paused;
+    filter: drop-shadow(0 0 12px #ffffff) drop-shadow(0 0 24px var(--theme-color, #00cec9));
 }
 
 .project-title {
@@ -3523,6 +3540,21 @@ img {
     .edu-card-inner {
         flex-direction: column;
         text-align: center;
+    }
+
+    .resume-modal-footer {
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 16px;
+        text-align: center;
+    }
+
+    .modal-footer-right {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        margin-bottom: 8px;
     }
 }
 
